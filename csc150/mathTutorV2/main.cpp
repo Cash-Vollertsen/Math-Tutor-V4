@@ -51,8 +51,14 @@ int main() {
                 break;
 
         case 2:
+            if (rando1 < rando2) {
+                ans = rando2 - rando1;
+                cout << "Please solve this math expression " << rando2 << " - " << rando1 << endl;
+            }
+        else if (rando2 < rando1) {
             ans = rando1 - rando2;
-        cout << "Please solve this math expression " << rando1 << " - " << rando2 << endl;
+            cout << "Please solve this math expression " << rando1 << " - " << rando2 << endl;
+        }
                 break;
 
         case 3:
