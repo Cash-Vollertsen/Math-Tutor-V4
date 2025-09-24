@@ -1,0 +1,30 @@
+Index: main.cpp
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\r\n    /********************************\r\n    Program.......:MathTutorV1\r\n    Programmers...:Cash Vollertsen and Javier Pedroza\r\n    Date..........:9/5/25\r\n    Github Repo...:\r\n    Description...:This will be the first iteration of our simple silly math tutor. It will be a very simple\r\n                   version of a math tutor starting off but eventually growing into something that is very complex and\r\n                   something that we can be proud of.\r\n    **********************************************/\r\n\r\n#include <iostream>\r\nusing namespace std;\r\nint main() {\r\n\r\n    cout << \"************************************************************************************\" << endl;\r\n    cout << \"*                         Welcome to Silly Simple Math Tutor V1                    *\" << endl;\r\n    cout << \"************************************************************************************\" << endl;\r\n\r\n    cout << \"Fun Math Facts\" << endl;\r\n    cout << \"   -Math wasn't created at any one time but devoloped over thousands of years.\" << endl;\r\n    cout << \"   -\"\"Forty\"\" is the only number that is spelt with letters arranged in alphabetical order.\" << endl;\r\n    cout << \"   -Every odd number has an \"\"e\"\" in it.\" << endl;\r\n\r\n    cout << \"Hey this is your Simple Silly Math Tutor, What's your name.\" << endl;\r\n    cout <<\r\n\r\n    return 0;\r\n}\r\n
+===================================================================
+diff --git a/main.cpp b/main.cpp
+--- a/main.cpp	(revision 8db490fb2db7ed7e561dab4e2b04574de5131380)
++++ b/main.cpp	(date 1757083407740)
+@@ -25,5 +25,4 @@
+     cout << "Hey this is your Simple Silly Math Tutor, What's your name." << endl;
+     cout <<
+ 
+-    return 0;
+-}
++    return 0;
+\ No newline at end of file
+Index: cmake-build-debug/Testing/Temporary/LastTest.log
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>Start testing: Sep 05 09:18 Central Daylight Time\r\n----------------------------------------------------------\r\nEnd testing: Sep 05 09:18 Central Daylight Time\r\n
+===================================================================
+diff --git a/cmake-build-debug/Testing/Temporary/LastTest.log b/cmake-build-debug/Testing/Temporary/LastTest.log
+--- a/cmake-build-debug/Testing/Temporary/LastTest.log	(revision 8db490fb2db7ed7e561dab4e2b04574de5131380)
++++ b/cmake-build-debug/Testing/Temporary/LastTest.log	(date 1757342130230)
+@@ -1,3 +1,3 @@
+-Start testing: Sep 05 09:18 Central Daylight Time
++Start testing: Sep 08 09:35 Central Daylight Time
+ ----------------------------------------------------------
+-End testing: Sep 05 09:18 Central Daylight Time
++End testing: Sep 08 09:35 Central Daylight Time
