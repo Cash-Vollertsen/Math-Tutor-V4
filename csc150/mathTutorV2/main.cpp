@@ -2,8 +2,10 @@
     Program.......:MathTutorV1
     Programmers...:Cash Vollertsen and
     Date..........:9/22/25
-    Github Repo...:
-    Description...:
+    Github Repo...:https://github.com/Cash-Vollertsen/Math-Tutor-V2
+    Description...: This is a much more complex version of the math tutor v1. It will be able to make random
+    numbers and math operators. I used my own math tutor V1 for the template and to add on from there.
+
 
 
 
