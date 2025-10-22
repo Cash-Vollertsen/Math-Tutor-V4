@@ -18,6 +18,7 @@
 #include <ctime>
 #include <limits>
 #include <cctype>
+#include <vector>
 
 using namespace std;
 
@@ -37,6 +38,7 @@ int main() {
     int numAnsIncr = 0;   // answers they have gotten wrong
     int levelRang = 10;
     char mathSymb = '?';
+    vector<vector<int> > mathQuestions
     string loop;
     string name;
     srand(time(nullptr));
@@ -113,6 +115,8 @@ int main() {
             cout << "invalid input!" << endl;
             cout << "Please enter a number";
         } // end of cin loop while statement
+
+        vector<int> row = {lvlNum, leftNum, mathSymb, rightNum, correctAns};
 
         // this counts the number of times they missed one problem
         for (int i = 0; userAns != correctAns && i < NUM_ATTEMPTS; i++) { // start of incorrect answer for logic
