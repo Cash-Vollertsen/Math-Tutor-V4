@@ -23,6 +23,9 @@
 
 using namespace std;
 
+
+
+
 int main() {
     enum MATH_TYPE { MT_ADD = 1, MT_SUB = 2,  //used for the switch case
                     MT_MUL = 3, MT_DIV = 4 }; //for the math symbols
@@ -35,15 +38,17 @@ int main() {
     int temp = 0;
     int mathType = 0;
     int stop = 0;
-    int numAnsCrtTot = 0;       // Total correct
     int numAnsIncrTot = 0;      // Total incorrect
     int questionTot = 0;        // Total questions answered
+    double percentCrt = 0;      // Percent they got correct
+    double numAnsCrtTot = 0;    // Total correct
     const int NUM_ATTEMPTS = 3;
-    int numAnsCrt = 0;          // answers they have gotten corret
+    int numAnsCrt = 0;          // answers they have gotten correct
     int numAnsIncr = 0;         // answers they have gotten wrong
     int levelRang = 10;
     char mathSymb = '?';
     vector<vector<int> > mathQuestions;
+    vector<int>::value_type i;
     string loop;
     string name;
     srand(time(nullptr));
@@ -132,12 +137,14 @@ int main() {
                 cout << "You are out of attempts." << endl;
                 numAnsIncr++; // increments the total number of Answers Incorrect
                 numAnsIncrTot++;
+                row.push_back(0); // 0 = failed
             } // end of if statement
         } // end of incorrect answer for logic
 
         if (userAns == correctAns) {    // if they got it correct
             numAnsCrt++;// increment the total number correct
             numAnsCrtTot++;
+            row.push_back(i + 1); // record number of attempts it took
             cout << "You got it correct!" << endl << endl;
         } // end of if they got it correct
 
@@ -177,6 +184,8 @@ int main() {
             if (loop == "no" || loop == "n") {
                 stop++;
                 questionTot = numAnsIncrTot + numAnsCrtTot;
+                percentCrt = (numAnsCrtTot / questionTot) * 100;
+
 
 
 
@@ -188,10 +197,12 @@ int main() {
 
 
 
+
                 cout << "---------------------------------------" << endl << endl;
-                cout << "Total Questions  :    " << questionTot << endl;
-                cout << "Total Correct    :    " << numAnsCrtTot << endl;
-                cout << "Total Incorrect  :    " << numAnsIncrTot << endl;
+                cout << "Total Questions:    " << questionTot << endl;
+                cout << "Total Correct  :    " << numAnsCrtTot << endl;
+                cout << "Total Incorrect:    " << numAnsIncrTot << endl;
+                cout << "Average Correct :    " << percentCrt << "%" << endl;
 
 
 
