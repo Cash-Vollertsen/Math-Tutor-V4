@@ -33,12 +33,13 @@ int main() {
     int lvlNum = 1;       // what level they are currently on
     int temp = 0;
     int mathType = 0;
+    int stop = 0;
     const int NUM_ATTEMPTS = 3;
     int numAnsCrt = 0;    // answers they have gotten corret
     int numAnsIncr = 0;   // answers they have gotten wrong
     int levelRang = 10;
     char mathSymb = '?';
-    vector<vector<int> > mathQuestions
+    vector<vector<int> > mathQuestions;
     string loop;
     string name;
     srand(time(nullptr));
@@ -155,7 +156,7 @@ int main() {
 
         getline(cin, loop);
 
-        while (true) {
+        while ((numAnsIncr == 0) && (numAnsCrt == 0)) {
 
             cout << "Do you want to continue (y=yes | n=no)? ";
             getline(cin, loop);
@@ -164,9 +165,14 @@ int main() {
             for (int i = 0; i < loop.size(); i++) {
                 loop.at(i) = tolower(loop.at(i));
             }
-            if (loop == "yes" || loop == "y" || loop == "no" || loop == "n") {
+            if (loop == "yes" || loop == "y") {
                 break;
-            } else {
+            }
+            if (loop == "no" || loop == "n") {
+                stop++;
+                break;
+            }
+            else {
                 cout << "Invalid input, please try again..." << endl;
                 cout << endl;
             } // end of if (y, yes, n , no)
@@ -176,7 +182,7 @@ int main() {
 
 
 
-    }while (loop == "y" || loop == "yes") ;
+    }while (stop == 0) ;
 
 
     return 0;
