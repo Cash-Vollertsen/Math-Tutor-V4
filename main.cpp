@@ -193,6 +193,7 @@ int main() {
                 cout << "            Summary Report             " << endl;
                 cout << "---------------------------------------" << endl;
                 cout << "Level          Question        Attempts" << endl;
+                cout << "_______ _____________________ _________" << endl;
 
 
 
