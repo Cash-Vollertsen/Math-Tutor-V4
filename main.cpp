@@ -19,6 +19,7 @@
 #include <limits>
 #include <cctype>
 #include <vector>
+#include <iomanip>
 
 using namespace std;
 
@@ -26,17 +27,20 @@ int main() {
     enum MATH_TYPE { MT_ADD = 1, MT_SUB = 2,  //used for the switch case
                     MT_MUL = 3, MT_DIV = 4 }; //for the math symbols
 
-    int leftNum = 0;      //left number for the math problem
-    int rightNum = 0;     //right number for the math problem
-    int correctAns = 0;   // correct answer used for
+    int leftNum = 0;            //left number for the math problem
+    int rightNum = 0;           //right number for the math problem
+    int correctAns = 0;         // correct answer used for
     int userAns = 0;
-    int lvlNum = 1;       // what level they are currently on
+    int lvlNum = 1;             // what level they are currently on
     int temp = 0;
     int mathType = 0;
     int stop = 0;
+    int numAnsCrtTot = 0;       // Total correct
+    int numAnsIncrTot = 0;      // Total incorrect
+    int questionTot = 0;        // Total questions answered
     const int NUM_ATTEMPTS = 3;
-    int numAnsCrt = 0;    // answers they have gotten corret
-    int numAnsIncr = 0;   // answers they have gotten wrong
+    int numAnsCrt = 0;          // answers they have gotten corret
+    int numAnsIncr = 0;         // answers they have gotten wrong
     int levelRang = 10;
     char mathSymb = '?';
     vector<vector<int> > mathQuestions;
@@ -127,11 +131,13 @@ int main() {
             if ((i + 1) == NUM_ATTEMPTS) { // if they run out of attempts
                 cout << "You are out of attempts." << endl;
                 numAnsIncr++; // increments the total number of Answers Incorrect
+                numAnsIncrTot++;
             } // end of if statement
         } // end of incorrect answer for logic
 
         if (userAns == correctAns) {    // if they got it correct
-            numAnsCrt++;                // increment the total number correct
+            numAnsCrt++;// increment the total number correct
+            numAnsCrtTot++;
             cout << "You got it correct!" << endl << endl;
         } // end of if they got it correct
 
@@ -170,6 +176,28 @@ int main() {
             }
             if (loop == "no" || loop == "n") {
                 stop++;
+                questionTot = numAnsIncrTot + numAnsCrtTot;
+
+
+
+                cout << "---------------------------------------" << endl;
+                cout << "            Summary Report             " << endl;
+                cout << "---------------------------------------" << endl;
+                cout << "Level          Question        Attempts" << endl;
+
+
+
+
+                cout << "---------------------------------------" << endl << endl;
+                cout << "Total Questions  :    " << questionTot << endl;
+                cout << "Total Correct    :    " << numAnsCrtTot << endl;
+                cout << "Total Incorrect  :    " << numAnsIncrTot << endl;
+
+
+
+
+
+
                 break;
             }
             else {
