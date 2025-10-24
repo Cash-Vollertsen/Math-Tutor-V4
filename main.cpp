@@ -46,9 +46,10 @@ int main() {
     int numAnsCrt = 0;          // answers they have gotten correct
     int numAnsIncr = 0;         // answers they have gotten wrong
     int levelRang = 10;
+    int numAtp = NUM_ATTEMPTS;
     char mathSymb = '?';
     vector<vector<int> > mathQuestions;
-    vector<int>::value_type i;
+
     string loop;
     string name;
     srand(time(nullptr));
@@ -137,14 +138,14 @@ int main() {
                 cout << "You are out of attempts." << endl;
                 numAnsIncr++; // increments the total number of Answers Incorrect
                 numAnsIncrTot++;
-                row.push_back(0); // 0 = failed
+                row.push_back(i = 0); // 0 = failed
             } // end of if statement
         } // end of incorrect answer for logic
 
         if (userAns == correctAns) {    // if they got it correct
             numAnsCrt++;// increment the total number correct
             numAnsCrtTot++;
-            row.push_back(i + 1); // record number of attempts it took
+            row.push_back(i = 0); // record number of attempts it took
             cout << "You got it correct!" << endl << endl;
         } // end of if they got it correct
 
@@ -194,12 +195,22 @@ int main() {
                 cout << "---------------------------------------" << endl;
                 cout << "Level          Question        Attempts" << endl;
                 cout << "_______ _____________________ _________" << endl;
+                for (int n = 0; n < mathQuestions.size(); n++) {
+                    lvlNum = mathQuestions.at(n).at(0);
+                    leftNum = mathQuestions.at(n).at(1);
+                    mathSymb = static_cast<char>(mathQuestions.at(n).at(2));
+                    rightNum = mathQuestions.at(n).at(3);
+                    correctAns = mathQuestions.at(n).at(4);
+                    cout << " " << setw(2) << right << lvlNum << " " <<
+                     setw(12) << right << leftNum << " " << mathSymb <<
+                     " " << rightNum << " = " << correctAns << " " << setw(4)
+                     << setw(16) << numAtp << endl;
+                    cout << " is this running";
+                }
 
 
 
-
-
-                cout << "---------------------------------------" << endl << endl;
+                cout << "---------------------------------------" << endl;
                 cout << "Total Questions:    " << questionTot << endl;
                 cout << "Total Correct  :    " << numAnsCrtTot << endl;
                 cout << "Total Incorrect:    " << numAnsIncrTot << endl;
