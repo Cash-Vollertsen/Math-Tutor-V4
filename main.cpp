@@ -237,7 +237,7 @@ int main() {
                 cout << "Total Correct  :    " << numAnsCrtTot << endl;
                 cout << "Total Incorrect:    " << numAnsIncrTot << endl;
                 cout << "Average Correct :    " << percentCrt << "%" << endl;
-
+                cout << "Thanks for playing, " << name << "! Keep practicing your math!";
 
 
 
