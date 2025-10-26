@@ -38,6 +38,7 @@ int main() {
     int temp = 0;
     int mathType = 0;
     int stop = 0;
+    int n = 0;
     int numAnsIncrTot = 0;      // Total incorrect
     int questionTot = 0;        // Total questions answered
     double percentCrt = 0;      // Percent they got correct
@@ -49,6 +50,8 @@ int main() {
     int numAtp = NUM_ATTEMPTS;
     char mathSymb = '?';
     vector<vector<int> > mathQuestions;
+    vector<int> row = {lvlNum, leftNum, mathSymb, rightNum, correctAns};
+    mathQuestions.push_back(row);
 
     string loop;
     string name;
@@ -77,7 +80,9 @@ int main() {
     cout << "Welcome, " << name << ", to the Simple Math Tutor!" << endl;
 
 
-    do {  //starts the do loop that generates math problems
+    do
+    {
+        //starts the do loop that generates math problems
 
 
         //left number and right number generation using levelRang(e)
@@ -86,36 +91,41 @@ int main() {
         mathType = (rand() % 4) + 1; //Generates numbers 1-4 to use in the switch
 
 
-        switch (mathType) { // start of switch
+        switch (mathType)
+        {
+            // start of switch
             // Code that displays the correct math problem and then finds the answer
-            case MT_ADD: // Addition problem
-                mathSymb = '+';
-                correctAns = leftNum + rightNum;
-                break;
-            case MT_SUB: //Subtraction problem
-                mathSymb = '-';
-                if (leftNum < rightNum) { //if statement that makes certain that the left number is greater
-                    temp = leftNum;
-                    leftNum = rightNum;
-                    rightNum = temp;
-                } // end of if statement
-                correctAns = leftNum - rightNum;
-                break;
-            case MT_MUL: // Multiplication problem
-                mathSymb = '*';
-                correctAns = leftNum * rightNum;
-                break;
-            case MT_DIV: // Division problem
-                mathSymb = '/';
-                leftNum = leftNum * rightNum; //makes division without decimals possible
-                correctAns = leftNum / rightNum;
-                break;
-            default: //ends the code if problems occur
-                cout << "Invalid question type: " << mathType << endl;
-                cout << "Program ended with an error -1" << endl;
-                cout << "Please report this error to Cash Vollertsen or William Wilkey";
-                return -1;
-        } // end of switch statement
+        case MT_ADD: // Addition problem
+            mathSymb = '+';
+            correctAns = leftNum + rightNum;
+            break;
+        case MT_SUB: //Subtraction problem
+            mathSymb = '-';
+            if (leftNum < rightNum) { //if statement that makes certain that the left number is greater
+                temp = leftNum;
+                leftNum = rightNum;
+                rightNum = temp;
+            } // end of if statement
+            correctAns = leftNum - rightNum;
+            break;
+        case MT_MUL: // Multiplication problem
+            mathSymb = '*';
+            correctAns = leftNum * rightNum;
+            break;
+        case MT_DIV: // Division problem
+            mathSymb = '/';
+            leftNum = leftNum * rightNum; //makes division without decimals possible
+            correctAns = leftNum / rightNum;
+            break;
+        default: //ends the code if problems occur
+            cout << "Invalid question type: " << mathType << endl;
+            cout << "Program ended with an error -1" << endl;
+            cout << "Please report this error to Cash Vollertsen or William Wilkey";
+
+            return -1;
+        }     // end of switch statement
+
+
 
         cout << "[Level " << lvlNum << "]" << endl; // level number is a seperate value moved with range
         cout << leftNum << " " << mathSymb << " " << rightNum << endl;
@@ -127,7 +137,7 @@ int main() {
             cout << "Please enter a number";
         } // end of cin loop while statement
 
-        vector<int> row = {lvlNum, leftNum, mathSymb, rightNum, correctAns};
+
 
         // this counts the number of times they missed one problem
         for (int i = 0; userAns != correctAns && i < NUM_ATTEMPTS; i++) { // start of incorrect answer for logic
@@ -138,14 +148,14 @@ int main() {
                 cout << "You are out of attempts." << endl;
                 numAnsIncr++; // increments the total number of Answers Incorrect
                 numAnsIncrTot++;
-                row.push_back(i = 0); // 0 = failed
+                row.push_back(0); // 0 = failed
             } // end of if statement
         } // end of incorrect answer for logic
 
         if (userAns == correctAns) {    // if they got it correct
             numAnsCrt++;// increment the total number correct
             numAnsCrtTot++;
-            row.push_back(i = 0); // record number of attempts it took
+             // need to get this backrecord number of attempts it took
             cout << "You got it correct!" << endl << endl;
         } // end of if they got it correct
 
@@ -167,6 +177,9 @@ int main() {
             cout << "Leveling down! The levels will be a little easier." << endl;
             cout << "The new range of numbers is 1-" << levelRang << endl;
         }
+
+        mathQuestions.push_back(row);
+
 
         getline(cin, loop);
 
@@ -195,7 +208,7 @@ int main() {
                 cout << "---------------------------------------" << endl;
                 cout << "Level          Question        Attempts" << endl;
                 cout << "_______ _____________________ _________" << endl;
-                for (int n = 0; n < mathQuestions.size(); n++) {
+                for (int n = 0; n < mathQuestions.size(); n++) { //
                     lvlNum = mathQuestions.at(n).at(0);
                     leftNum = mathQuestions.at(n).at(1);
                     mathSymb = static_cast<char>(mathQuestions.at(n).at(2));
@@ -205,7 +218,7 @@ int main() {
                      setw(12) << right << leftNum << " " << mathSymb <<
                      " " << rightNum << " = " << correctAns << " " << setw(4)
                      << setw(16) << numAtp << endl;
-                    cout << " is this running";
+
                 }
 
 
