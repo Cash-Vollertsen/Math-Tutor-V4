@@ -38,9 +38,9 @@ int main() {
     int temp = 0;
     int mathType = 0;
     int stop = 0;
-    int n = 0;
     int numAnsIncrTot = 0;      // Total incorrect
     int questionTot = 0;        // Total questions answered
+    int i = 1;
     double percentCrt = 0;      // Percent they got correct
     double numAnsCrtTot = 0;    // Total correct
     const int NUM_ATTEMPTS = 3;
@@ -50,8 +50,9 @@ int main() {
     int numAtp = NUM_ATTEMPTS;
     char mathSymb = '?';
     vector<vector<int> > mathQuestions;
-    vector<int> row = {lvlNum, leftNum, mathSymb, rightNum, correctAns};
-    mathQuestions.push_back(row);
+
+
+
 
     string loop;
     string name;
@@ -129,6 +130,10 @@ int main() {
 
         cout << "[Level " << lvlNum << "]" << endl; // level number is a seperate value moved with range
         cout << leftNum << " " << mathSymb << " " << rightNum << endl;
+
+        vector<int> row = {lvlNum, leftNum, static_cast<int>(mathSymb), rightNum, correctAns};
+        bool gotItRight = false;
+
         while (!(cin >> userAns)) { // cin has to be a number otherwise it will loop
             cin.clear();
 
@@ -152,11 +157,15 @@ int main() {
             } // end of if statement
         } // end of incorrect answer for logic
 
+        mathQuestions.push_back(row);
+
         if (userAns == correctAns) {    // if they got it correct
             numAnsCrt++;// increment the total number correct
             numAnsCrtTot++;
              // need to get this backrecord number of attempts it took
             cout << "You got it correct!" << endl << endl;
+            row.push_back(i + 1);
+            gotItRight = true;
         } // end of if they got it correct
 
         if (numAnsCrt == 3) {   // leveling up logic for if they get three right
@@ -178,7 +187,7 @@ int main() {
             cout << "The new range of numbers is 1-" << levelRang << endl;
         }
 
-        mathQuestions.push_back(row);
+
 
 
         getline(cin, loop);
@@ -217,7 +226,7 @@ int main() {
                     cout << " " << setw(2) << right << lvlNum << " " <<
                      setw(12) << right << leftNum << " " << mathSymb <<
                      " " << rightNum << " = " << correctAns << " " << setw(4)
-                     << setw(16) << numAtp << endl;
+                     << setw(10) << numAtp << endl;
 
                 }
 
