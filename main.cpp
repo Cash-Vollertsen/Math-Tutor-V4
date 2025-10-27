@@ -141,10 +141,6 @@ int main() {
         }
 
 
-
-
-
-
         for (int i = 0; userAns != correctAns && i < NUM_ATTEMPTS; i++) {
             cout << "That is incorrect. You have " << (NUM_ATTEMPTS - (i + 1)) << " attempts left:" << endl;
             cout << leftNum << " " << mathSymb << " " << rightNum << endl;
@@ -161,7 +157,6 @@ int main() {
                 row.push_back(0); // 0 = failed
             }
         }
-
 
 
         if (userAns == correctAns) {
