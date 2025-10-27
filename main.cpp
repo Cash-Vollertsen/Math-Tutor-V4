@@ -2,7 +2,7 @@
  * Program:       Math Tutor V4
  * Programmer(s): Brecken Schwartz, Cash Vollertsen
  * Date:          2025.10.22
- * GitHub:       https://github.com/Cash-Vollertsen/Math-Tutor-V4
+ * GitHub:        https://github.com/Cash-Vollertsen/Math-Tutor-V4
  * Description:   This program teaches math to students. It first
  *                gives them an intro, has them give a name, and then
  *                asks math question with various levels and ranges
@@ -47,7 +47,8 @@ int main() {
     int numAnsCrt = 0;          // answers they have gotten correct
     int numAnsIncr = 0;         // answers they have gotten wrong
     int levelRang = 10;
-    int numAtp = NUM_ATTEMPTS;
+    int numAtp = 3;
+    int attemptsUsed = 1; // assume first try unless they miss
     char mathSymb = '?';
     vector<vector<int> > mathQuestions;
 
@@ -94,19 +95,17 @@ int main() {
 
         switch (mathType)
         {
-            // start of switch
-            // Code that displays the correct math problem and then finds the answer
         case MT_ADD: // Addition problem
             mathSymb = '+';
             correctAns = leftNum + rightNum;
             break;
         case MT_SUB: //Subtraction problem
             mathSymb = '-';
-            if (leftNum < rightNum) { //if statement that makes certain that the left number is greater
+            if (leftNum < rightNum) {
                 temp = leftNum;
                 leftNum = rightNum;
                 rightNum = temp;
-            } // end of if statement
+            }
             correctAns = leftNum - rightNum;
             break;
         case MT_MUL: // Multiplication problem
@@ -115,69 +114,74 @@ int main() {
             break;
         case MT_DIV: // Division problem
             mathSymb = '/';
-            leftNum = leftNum * rightNum; //makes division without decimals possible
+            leftNum = leftNum * rightNum;
             correctAns = leftNum / rightNum;
             break;
-        default: //ends the code if problems occur
+        default:
             cout << "Invalid question type: " << mathType << endl;
             cout << "Program ended with an error -1" << endl;
             cout << "Please report this error to Cash Vollertsen or William Wilkey";
-
             return -1;
-        }     // end of switch statement
+        }
 
 
 
-        cout << "[Level " << lvlNum << "]" << endl; // level number is a seperate value moved with range
+        cout << "[Level " << lvlNum << "]" << endl;
         cout << leftNum << " " << mathSymb << " " << rightNum << endl;
 
-        vector<int> row = {lvlNum, leftNum, static_cast<int>(mathSymb), rightNum, correctAns};
-        bool gotItRight = false;
+        vector<int> row = {lvlNum, leftNum, static_cast<int>(mathSymb), rightNum, correctAns, numAtp};
 
-        while (!(cin >> userAns)) { // cin has to be a number otherwise it will loop
+
+
+        while (!(cin >> userAns)) {
             cin.clear();
-
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cout << "invalid input!" << endl;
-            cout << "Please enter a number";
-        } // end of cin loop while statement
+            cout << "Please enter a number: ";
+        }
 
 
 
-        // this counts the number of times they missed one problem
-        for (int i = 0; userAns != correctAns && i < NUM_ATTEMPTS; i++) { // start of incorrect answer for logic
-            cout << "That is incorrect you have " << NUM_ATTEMPTS - i << " attempts left: " << endl;
+
+
+
+        for (int i = 0; userAns != correctAns && i < NUM_ATTEMPTS; i++) {
+            cout << "That is incorrect. You have " << (NUM_ATTEMPTS - (i + 1)) << " attempts left:" << endl;
             cout << leftNum << " " << mathSymb << " " << rightNum << endl;
             cin >> userAns;
-            if ((i + 1) == NUM_ATTEMPTS) { // if they run out of attempts
+
+            attemptsUsed = i + 2; // updates attempts count each loop
+
+            if (userAns == correctAns) break; // stop early if they got it right
+
+            if ((i + 1) == NUM_ATTEMPTS) {
                 cout << "You are out of attempts." << endl;
-                numAnsIncr++; // increments the total number of Answers Incorrect
+                numAnsIncr++;
                 numAnsIncrTot++;
                 row.push_back(0); // 0 = failed
-            } // end of if statement
-        } // end of incorrect answer for logic
+            }
+        }
 
-        mathQuestions.push_back(row);
 
-        if (userAns == correctAns) {    // if they got it correct
-            numAnsCrt++;// increment the total number correct
+
+        if (userAns == correctAns) {
+            numAnsCrt++;
             numAnsCrtTot++;
-             // need to get this backrecord number of attempts it took
             cout << "You got it correct!" << endl << endl;
-            row.push_back(i + 1);
-            gotItRight = true;
-        } // end of if they got it correct
 
-        if (numAnsCrt == 3) {   // leveling up logic for if they get three right
-            levelRang += 10;    // adds to the level range
-            lvlNum++;           // increases the level number
-            numAnsCrt = 0;      // clears total number correct
-            numAnsIncr = 0;     // clears total number incorrect
+            row.push_back(attemptsUsed); // record actual attempts
+        }
+
+        if (numAnsCrt == 3) {
+            levelRang += 10;
+            lvlNum++;
+            numAnsCrt = 0;
+            numAnsIncr = 0;
             cout << "Leveling up! " << "The Levels will be a smidge harder." << endl;
             cout << "The new range of numbers is 1-" << levelRang << endl <<endl;
-
         }
-        if (numAnsIncr == 3 && levelRang != 10) { // leveling down logic
+
+        if (numAnsIncr == 3 && levelRang != 10) {
             levelRang -= 10;
             numAnsCrt = 0;
             numAnsIncr = 0;
@@ -187,7 +191,7 @@ int main() {
             cout << "The new range of numbers is 1-" << levelRang << endl;
         }
 
-
+        mathQuestions.push_back(row);
 
 
         getline(cin, loop);
@@ -197,7 +201,6 @@ int main() {
             cout << "Do you want to continue (y=yes | n=no)? ";
             getline(cin, loop);
 
-            // to lower case the user's input
             for (int i = 0; i < loop.size(); i++) {
                 loop.at(i) = tolower(loop.at(i));
             }
@@ -211,23 +214,22 @@ int main() {
 
 
 
-
                 cout << "---------------------------------------" << endl;
                 cout << "            Summary Report             " << endl;
                 cout << "---------------------------------------" << endl;
                 cout << "Level          Question        Attempts" << endl;
                 cout << "_______ _____________________ _________" << endl;
-                for (int n = 0; n < mathQuestions.size(); n++) { //
+                for (int n = 0; n < mathQuestions.size(); n++) {
                     lvlNum = mathQuestions.at(n).at(0);
                     leftNum = mathQuestions.at(n).at(1);
                     mathSymb = static_cast<char>(mathQuestions.at(n).at(2));
                     rightNum = mathQuestions.at(n).at(3);
                     correctAns = mathQuestions.at(n).at(4);
+                    attemptsUsed = mathQuestions.at(n).at(5);
                     cout << " " << setw(2) << right << lvlNum << " " <<
                      setw(12) << right << leftNum << " " << mathSymb <<
                      " " << rightNum << " = " << correctAns << " " << setw(4)
-                     << setw(10) << numAtp << endl;
-
+                     << setw(10) << attemptsUsed << endl;
                 }
 
 
@@ -239,24 +241,15 @@ int main() {
                 cout << "Average Correct :    " << percentCrt << "%" << endl;
                 cout << "Thanks for playing, " << name << "! Keep practicing your math!";
 
-
-
-
-
                 break;
             }
             else {
                 cout << "Invalid input, please try again..." << endl;
                 cout << endl;
-            } // end of if (y, yes, n , no)
+            }
         }
 
-
-
-
-
-    }while (stop == 0) ;
-
+    }while (stop == 0);
 
     return 0;
 }
