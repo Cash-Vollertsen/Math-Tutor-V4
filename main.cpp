@@ -226,7 +226,7 @@ int main() {
                     attemptsUsed = mathQuestions.at(n).at(5);
                     cout << " " << setw(2) << right << lvlNum << " " <<
                      setw(12) << right << leftNum << " " << mathSymb <<
-                     " " << rightNum << " = " << correctAns << " " << setw(4)
+                     " " << rightNum << " = " << correctAns << " "
                      << setw(11) << attemptsUsed << endl;
                 }
 
