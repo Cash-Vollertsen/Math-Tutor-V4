@@ -40,15 +40,13 @@ int main() {
     int stop = 0;
     int numAnsIncrTot = 0;      // Total incorrect
     int questionTot = 0;        // Total questions answered
-    int i = 1;
     double percentCrt = 0;      // Percent they got correct
     double numAnsCrtTot = 0;    // Total correct
     const int NUM_ATTEMPTS = 3;
     int numAnsCrt = 0;          // answers they have gotten correct
     int numAnsIncr = 0;         // answers they have gotten wrong
     int levelRang = 10;
-    int numAtp = 3;
-    int attemptsUsed = 1; // assume first try unless they miss
+    int attemptsUsed = 3; // assume first try unless they miss
     char mathSymb = '?';
     vector<vector<int> > mathQuestions;
 
@@ -120,7 +118,7 @@ int main() {
         default:
             cout << "Invalid question type: " << mathType << endl;
             cout << "Program ended with an error -1" << endl;
-            cout << "Please report this error to Cash Vollertsen or William Wilkey";
+            cout << "Please report this error to Cash Vollertsen or Brecken Schwartz";
             return -1;
         }
 
@@ -129,7 +127,7 @@ int main() {
         cout << "[Level " << lvlNum << "]" << endl;
         cout << leftNum << " " << mathSymb << " " << rightNum << endl;
 
-        vector<int> row = {lvlNum, leftNum, static_cast<int>(mathSymb), rightNum, correctAns, numAtp};
+        vector<int> row = {lvlNum, leftNum, static_cast<int>(mathSymb), rightNum, correctAns };
 
 
 
@@ -154,18 +152,23 @@ int main() {
                 cout << "You are out of attempts." << endl;
                 numAnsIncr++;
                 numAnsIncrTot++;
+
+                row.push_back(attemptsUsed); //store attempts even if they failed
                 row.push_back(0); // 0 = failed
             }
         }
 
-
+        // After the for loop, if the user got it correct
         if (userAns == correctAns) {
             numAnsCrt++;
             numAnsCrtTot++;
             cout << "You got it correct!" << endl << endl;
 
-            row.push_back(attemptsUsed); // record actual attempts
+            row.push_back(attemptsUsed); // store number of attempts used
         }
+
+        row.push_back(attemptsUsed);
+        mathQuestions.push_back(row);
 
         if (numAnsCrt == 3) {
             levelRang += 10;
@@ -186,7 +189,7 @@ int main() {
             cout << "The new range of numbers is 1-" << levelRang << endl;
         }
 
-        mathQuestions.push_back(row);
+
 
 
         getline(cin, loop);
@@ -212,8 +215,8 @@ int main() {
                 cout << "---------------------------------------" << endl;
                 cout << "            Summary Report             " << endl;
                 cout << "---------------------------------------" << endl;
-                cout << "Level          Question        Attempts" << endl;
-                cout << "_______ _____________________ _________" << endl;
+                cout << "Level           Question         Attempts" << endl;
+                cout << "_______  _____________________  _________" << endl;
                 for (int n = 0; n < mathQuestions.size(); n++) {
                     lvlNum = mathQuestions.at(n).at(0);
                     leftNum = mathQuestions.at(n).at(1);
@@ -224,7 +227,7 @@ int main() {
                     cout << " " << setw(2) << right << lvlNum << " " <<
                      setw(12) << right << leftNum << " " << mathSymb <<
                      " " << rightNum << " = " << correctAns << " " << setw(4)
-                     << setw(10) << attemptsUsed << endl;
+                     << setw(11) << attemptsUsed << endl;
                 }
 
 
