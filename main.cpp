@@ -7,7 +7,7 @@
  *                gives them an intro, has them give a name, and then
  *                asks math question with various levels and ranges
  *                and tells them if they answered the question correctly.
- *                Then gives you a summary report to see how hyou did.
+ *                Then gives you a summary report to see how you did.
  *                It has loops that allow a person to infinitely play
  *                the math tutor.
  */
@@ -20,15 +20,10 @@
 #include <cctype>
 #include <vector>
 #include <iomanip>
-
 using namespace std;
 
-
-
-
 int main() {
-    enum MATH_TYPE { MT_ADD = 1, MT_SUB = 2,  //used for the switch case
-                    MT_MUL = 3, MT_DIV = 4 }; //for the math symbols
+    enum MATH_TYPE { MT_ADD = 1, MT_SUB = 2, MT_MUL = 3, MT_DIV = 4 };
 
     int leftNum = 0;            //left number for the math problem
     int rightNum = 0;           //right number for the math problem
@@ -43,6 +38,7 @@ int main() {
     double percentCrt = 0;      // Percent they got correct
     double numAnsCrtTot = 0;    // Total correct
     const int NUM_ATTEMPTS = 3;
+    int oldLvlNum = lvlNum;
     int numAnsCrt = 0;          // answers they have gotten correct
     int numAnsIncr = 0;         // answers they have gotten wrong
     int levelRang = 10;
@@ -50,13 +46,8 @@ int main() {
     char mathSymb = '?';
     vector<vector<int> > mathQuestions;
 
-
-
-
-    string loop;
-    string name;
+    string loop, name;
     srand(time(nullptr));
-
 
     cout << "********************************************************************" << endl;
     cout << "                                  ___                               " << endl;
@@ -74,30 +65,23 @@ int main() {
     cout << endl;
     cout << "********************************************************************" << endl;
 
-    cout << endl;
     cout << "What is your name? ";
-    getline(cin, name); // gets their entire name
+    getline(cin, name);
     cout << "Welcome, " << name << ", to the Simple Math Tutor!" << endl;
-
 
     do
     {
-        //starts the do loop that generates math problems
-
-
-        //left number and right number generation using levelRang(e)
+        // generate numbers
         leftNum = (rand() % levelRang) + 1;
         rightNum = (rand() % levelRang) + 1;
-        mathType = (rand() % 4) + 1; //Generates numbers 1-4 to use in the switch
+        mathType = (rand() % 4) + 1;
 
-
-        switch (mathType)
-        {
-        case MT_ADD: // Addition problem
+        switch (mathType) {
+        case MT_ADD:
             mathSymb = '+';
             correctAns = leftNum + rightNum;
             break;
-        case MT_SUB: //Subtraction problem
+        case MT_SUB:
             mathSymb = '-';
             if (leftNum < rightNum) {
                 temp = leftNum;
@@ -106,148 +90,126 @@ int main() {
             }
             correctAns = leftNum - rightNum;
             break;
-        case MT_MUL: // Multiplication problem
+        case MT_MUL:
             mathSymb = '*';
             correctAns = leftNum * rightNum;
             break;
-        case MT_DIV: // Division problem
+        case MT_DIV:
             mathSymb = '/';
             leftNum = leftNum * rightNum;
             correctAns = leftNum / rightNum;
             break;
         default:
             cout << "Invalid question type: " << mathType << endl;
-            cout << "Program ended with an error -1" << endl;
-            cout << "Please report this error to Cash Vollertsen or Brecken Schwartz";
             return -1;
         }
 
-
-
         cout << "[Level " << lvlNum << "]" << endl;
-        cout << leftNum << " " << mathSymb << " " << rightNum << endl;
+        cout << leftNum << " " << mathSymb << " " << rightNum << " = ";
 
-        vector<int> row = {lvlNum, leftNum, static_cast<int>(mathSymb), rightNum, correctAns };
-
-
+        vector<int> row = { lvlNum, leftNum, static_cast<int>(mathSymb), rightNum, correctAns };
 
         while (!(cin >> userAns)) {
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "invalid input!" << endl;
-            cout << "Please enter a number: ";
+            cout << "Invalid input! Please enter a number: ";
         }
 
-
-        for (int i = 0; userAns != correctAns && i < NUM_ATTEMPTS; i++) {
-            cout << "That is incorrect. You have " << (NUM_ATTEMPTS - (i + 1)) << " attempts left:" << endl;
-            cout << leftNum << " " << mathSymb << " " << rightNum << endl;
-            cin >> userAns;
-
-            attemptsUsed = i + 2; // updates attempts count each loop
-
-            if (userAns == correctAns) break; // stop early if they got it right
-
-            if ((i + 1) == NUM_ATTEMPTS) {
-                cout << "You are out of attempts." << endl;
+        bool gotCorrect = false;
+        for (int i = 0; i < NUM_ATTEMPTS; i++) {
+            attemptsUsed = i + 1;
+            if (userAns == correctAns) {
+                gotCorrect = true;
+                numAnsCrt++;
+                numAnsCrtTot++;
+                cout << "You got it correct!" << endl << endl;
+                break;
+            } else if (i < NUM_ATTEMPTS - 1) {
+                cout << "Incorrect. Try again (" << (NUM_ATTEMPTS - (i + 1)) << " attempts left): ";
+                cin >> userAns;
+            } else {
+                cout << "Out of attempts! The correct answer was " << correctAns << "." << endl << endl;
                 numAnsIncr++;
                 numAnsIncrTot++;
-
-                row.push_back(attemptsUsed); //store attempts even if they failed
-                row.push_back(0); // 0 = failed
             }
         }
 
-        // After the for loop, if the user got it correct
-        if (userAns == correctAns) {
-            numAnsCrt++;
-            numAnsCrtTot++;
-            cout << "You got it correct!" << endl << endl;
-
-            row.push_back(attemptsUsed); // store number of attempts used
+        // store results
+        if (gotCorrect) {
+            row.push_back(attemptsUsed);
+            row.push_back(1); // correct
+        } else {
+            row.push_back(0); // only 0 if incorrect
         }
 
-        row.push_back(attemptsUsed);
         mathQuestions.push_back(row);
 
+        // level up/down
         if (numAnsCrt == 3) {
             levelRang += 10;
             lvlNum++;
             numAnsCrt = 0;
             numAnsIncr = 0;
-            cout << "Leveling up! " << "The Levels will be a smidge harder." << endl;
-            cout << "The new range of numbers is 1-" << levelRang << endl <<endl;
-        }
-
-        if (numAnsIncr == 3 && levelRang != 10) {
+            cout << "Leveling up! The levels will be a bit harder." << endl;
+            cout << "New range: 1-" << levelRang << endl << endl;
+        } else if (numAnsIncr == 3 && levelRang != 10) {
             levelRang -= 10;
+            lvlNum--;
             numAnsCrt = 0;
             numAnsIncr = 0;
-            lvlNum--;
-
-            cout << "Leveling down! The levels will be a little easier." << endl;
-            cout << "The new range of numbers is 1-" << levelRang << endl;
+            cout << "Leveling down! The levels will be a bit easier." << endl;
+            cout << "New range: 1-" << levelRang << endl << endl;
         }
 
-
-
-
-        getline(cin, loop);
-
-        while ((numAnsIncr == 0) && (numAnsCrt == 0)) {
-
+        if (oldLvlNum != lvlNum) {
             cout << "Do you want to continue (y=yes | n=no)? ";
-            getline(cin, loop);
-
-            for (int i = 0; i < loop.size(); i++) {
-                loop.at(i) = tolower(loop.at(i));
-            }
-            if (loop == "yes" || loop == "y") {
-                break;
-            }
-            if (loop == "no" || loop == "n") {
-                stop++;
-                questionTot = numAnsIncrTot + numAnsCrtTot;
-                percentCrt = (numAnsCrtTot / questionTot) * 100;
-
-
-
-                cout << "---------------------------------------" << endl;
-                cout << "            Summary Report             " << endl;
-                cout << "---------------------------------------" << endl;
-                cout << "Level           Question         Attempts" << endl;
-                cout << "_______  _____________________  _________" << endl;
-                for (int n = 0; n < mathQuestions.size(); n++) {
-                    lvlNum = mathQuestions.at(n).at(0);
-                    leftNum = mathQuestions.at(n).at(1);
-                    mathSymb = static_cast<char>(mathQuestions.at(n).at(2));
-                    rightNum = mathQuestions.at(n).at(3);
-                    correctAns = mathQuestions.at(n).at(4);
-                    attemptsUsed = mathQuestions.at(n).at(5);
-                    cout << " " << setw(2) << right << lvlNum << " " <<
-                     setw(12) << right << leftNum << " " << mathSymb <<
-                     " " << rightNum << " = " << correctAns << " "
-                     << setw(11) << attemptsUsed << endl;
-                }
-
-
-
-                cout << "---------------------------------------" << endl;
-                cout << "Total Questions:    " << questionTot << endl;
-                cout << "Total Correct  :    " << numAnsCrtTot << endl;
-                cout << "Total Incorrect:    " << numAnsIncrTot << endl;
-                cout << "Average Correct :    " << percentCrt << "%" << endl;
-                cout << "Thanks for playing, " << name << "! Keep practicing your math!";
-
-                break;
-            }
-            else {
-                cout << "Invalid input, please try again..." << endl;
-                cout << endl;
-            }
+            cin >> loop;
+            for (char &c : loop) c = tolower(c);
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            oldLvlNum = lvlNum;
         }
+        if (loop == "no" || loop == "n") {
+            stop = 1;
+        }
+    } while (stop == 0);
 
-    }while (stop == 0);
+
+
+    questionTot = numAnsIncrTot + numAnsCrtTot;
+    percentCrt = (static_cast<double>(numAnsCrtTot) / questionTot) * 100.0;
+
+    cout << "---------------------------------------" << endl;
+    cout << "            Summary Report             " << endl;
+    cout << "---------------------------------------" << endl;
+    cout << "Level           Question         Result" << endl;
+    cout << "_______  _____________________  _______" << endl;
+
+    for (int i = 0; i < mathQuestions.size(); i++) {
+        lvlNum = mathQuestions.at(i).at(0);
+        leftNum = mathQuestions.at(i).at(1);
+        mathSymb = static_cast<char>(mathQuestions.at(i).at(2));
+        rightNum = mathQuestions.at(i).at(3);
+        correctAns = mathQuestions.at(i).at(4);
+        int result = mathQuestions.at(i).at(5);
+
+        cout << " " << setw(2) << right << lvlNum << " "
+             << setw(12) << right << leftNum << " " << mathSymb
+             << " " << rightNum << " = " << setw(4) << correctAns << " ";
+
+        if (result > 0)
+            cout << setw(10) << result;
+        else
+            cout << setw(10) << "incorrect";
+
+        cout << endl;
+    }
+
+    cout << "---------------------------------------" << endl;
+    cout << "Total Questions : " << questionTot << endl;
+    cout << "Total Correct   : " << numAnsCrtTot << endl;
+    cout << "Total Incorrect : " << numAnsIncrTot << endl;
+    cout << "Average Correct : " << fixed << setprecision(1) << percentCrt << "%" << endl;
+    cout << "Thanks for playing, " << name << "! Keep practicing your math!" << endl;
 
     return 0;
 }
