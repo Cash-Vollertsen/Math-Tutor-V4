@@ -12,14 +12,15 @@
  *                the math tutor.
  */
 
-#include <iostream>
-#include <cstdlib>
-#include <string>
-#include <ctime>
-#include <limits>
-#include <cctype>
-#include <vector>
-#include <iomanip>
+#include <iostream>  //for input/output
+#include <cstdlib> //for rand(), srand()
+#include <string> //for string operations
+#include <ctime> //for time() seeding random
+#include <limits> //for numeric_limits in input validation
+#include <cctype> //for tolower()
+#include <vector> //for storing question data
+#include <iomanip> //for setw(), setprecision()
+
 using namespace std;
 
 int main() {
@@ -35,18 +36,23 @@ int main() {
     int stop = 0;
     int numAnsIncrTot = 0;      // Total incorrect
     int questionTot = 0;        // Total questions answered
-    double percentCrt = 0;      // Percent they got correct
-    double numAnsCrtTot = 0;    // Total correct
-    const int NUM_ATTEMPTS = 3;
     int oldLvlNum = lvlNum;
     int numAnsCrt = 0;          // answers they have gotten correct
     int numAnsIncr = 0;         // answers they have gotten wrong
     int levelRang = 10;
     int attemptsUsed = 3; // assume first try unless they miss
+
+    double percentCrt = 0;      // Percent they got correct
+    double numAnsCrtTot = 0;    // Total correct
+
+    const int NUM_ATTEMPTS = 3;
+
     char mathSymb = '?';
+
     vector<vector<int> > mathQuestions;
 
     string loop, name;
+
     srand(time(nullptr));
 
     cout << "********************************************************************" << endl;
@@ -82,6 +88,7 @@ int main() {
                 break;
             case MT_SUB:
                 mathSymb = '-';
+                //Makes sure there are no negative results
                 if (leftNum < rightNum) {
                     temp = leftNum;
                     leftNum = rightNum;
@@ -95,6 +102,8 @@ int main() {
                 break;
             case MT_DIV:
                 mathSymb = '/';
+                //Force interger division
+                //Multiply left num by right num so division is always exact
                 leftNum = leftNum * rightNum;
                 correctAns = leftNum / rightNum;
                 break;
@@ -113,6 +122,9 @@ int main() {
         // Countdown attempts loop
         for (int i = NUM_ATTEMPTS; i > 0; i--) {
             attemptsUsed = i; // starts at 3, counts down
+            //Ensures the user enters a valid number
+            //if input fails, the invalid data is ignored
+            //user is prompted the question again
             while (!(cin >> userAns)) {
                 cin.clear();
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -124,6 +136,7 @@ int main() {
                 numAnsCrt++;
                 numAnsCrtTot++;
                 cout << "You got it correct!" << endl << endl;
+                row.push_back(i);
                 break;
             } else {
                 if (i > 1) {
@@ -135,6 +148,7 @@ int main() {
                          << correctAns << "." << endl << endl;
                     numAnsIncr++;
                     numAnsIncrTot++;
+                    row.push_back(0);
                 }
             }
         }
@@ -214,10 +228,10 @@ int main() {
     }
 
     cout << "---------------------------------------" << endl;
-    cout << "Total Questions : " << questionTot << endl;
-    cout << "Total Correct   : " << numAnsCrtTot << endl;
-    cout << "Total Incorrect : " << numAnsIncrTot << endl;
-    cout << "Average Correct : " << fixed << setprecision(1) << percentCrt << "%" << endl;
+    cout << setw(20) << right << "Total Questions : " << setw(5) << questionTot << endl;
+    cout << setw(20) << right << "Total Correct   : " << setw(5) << numAnsCrtTot << endl;
+    cout << setw(20) << right << "Total Incorrect : " << setw(5) << numAnsIncrTot << endl;
+    cout << setw(20) << right << "Average Correct : " << setw(8) << fixed << setprecision(1) << percentCrt << "%" << endl;
     cout << "Thanks for playing, " << name << "! Keep practicing your math!" << endl;
 
     return 0;
